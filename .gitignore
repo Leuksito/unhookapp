@@ -21,6 +21,10 @@ lerna-debug.log*
 dist/
 dist-ssr/
 
+# Debug output
+server/derr.txt
+server/dout.txt
+
 # Database
 server/data/
 

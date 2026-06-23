@@ -139,4 +139,4 @@ UnhookApp/
 
 ## License
 
-[MIT](LICENSE)
+[Apache 2.0](LICENSE) — Copyright 2024 Leuksito
