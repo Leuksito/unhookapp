@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Bereinigen Sie Ihr Postfach. Finden Sie Ihre Ruhe.",
+    "subtitle": "Finden und kündigen Sie Newsletter, Werbung und Spam mit einem Klick.",
+    "connect": "Mit Gmail verbinden",
+    "privacy": "Wir bitten nur um Lesezugriff, um Abmelde-Links zu finden. Wir löschen oder senden niemals E-Mails."
+  },
+  "dashboard": {
+    "health_score": "Postfach-Gesundheit",
+    "pending": "Ausstehend",
+    "stats": {
+      "time_saved": "Zeit Gespart",
+      "emails_avoided": "Vermiedene E-Mails",
+      "total_cuts": "Kündigungen",
+      "streak": "Serie (Tage)"
+    },
+    "tabs": {
+      "all": "Alle",
+      "promotions": "Werbung",
+      "newsletter": "Newsletter",
+      "social": "Soziales",
+      "other": "Sonstiges"
+    },
+    "actions": {
+    "cut_all": "Alle kündigen",
+    "cut_archive_all": "Alle kündigen & archivieren",
+    "cut_archive": "Künd+Arch",
+    "archive": "Archivieren",
+    "snooze": "Erinnern (30d)",
+    "cut": "Kündigen"
+    },
+    "scanning": "Durchsuche Ihr Postfach...",
+    "phase_connecting": "Verbinde",
+    "phase_counting": "Zähle E-Mails",
+    "phase_scanning": "Scanne Abonnements",
+    "scan_found": "{count} E-Mails gefunden",
+    "scan_processing": "Verarbeite {count} E-Mails...",
+    "scan_tip1": "Die meisten Newsletter haben den Abmelde-Link unten",
+    "scan_tip2": "Gmail versteckt Werbung in einem separaten Tab — wir scannen auch dort",
+    "scan_tip3": "Sie können alle mit einem Klick kündigen",
+    "scan_tip4": "Probieren Sie den Zen-Modus für eine Tastatur-Reinigung",
+    "scan_taking_long": "Dies dauert länger als gewöhnlich... Geduld!",
+    "scan_error": "Postfach konnte nicht gescannt werden",
+    "scan_retry": "Erneut versuchen",
+    "cleanup_on": "Aufräumen AN",
+    "cleanup_off": "Aufräumen AUS",
+    "cleanup_all": "Alle archivieren",
+    "cleanup_confirm": "Alle E-Mails dieser Absender archivieren? Sie werden aus dem Postfach entfernt.",
+    "history_title": "Verlauf",
+    "history_empty": "Keine Schnitte",
+    "history_undo": "Rückgängig",
+    "empty": "Keine Abonnements gefunden! 🎉",
+    "no_link": "Kein Abmelde-Link",
+    "no_link_desc": "Wir konnten keinen direkten Link finden. Erwägen Sie, den Absender in Gmail zu blockieren.",
+    "freq": "E-Mails/Monat"
+  },
+  "zen": {
+    "enter": "Zen-Modus",
+    "title": "Zen-Modus",
+    "subtitle": "Benutzen Sie die Pfeiltasten",
+    "cut": "Kündigen (←)",
+    "keep": "Behalten (→)",
+    "snooze": "Erinnern (↑)",
+    "empty": "Keine Karten mehr!",
+    "exit": "Zen-Modus verlassen",
+    "remaining": "übrig"
+  },
+  "celebration": {
+    "title": "Postfach auf Null! 🎉",
+    "desc": "Sie haben alle ausstehenden Abonnements bereinigt.",
+    "done": "Zurück zum Dashboard"
+  }
+}

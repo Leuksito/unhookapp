@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "受信箱をクリーンに。平和を取り戻そう。",
+    "subtitle": "ニュースレターやプロモーション、スパムをワンクリックで見つけて解除。",
+    "connect": "Gmailと連携",
+    "privacy": "解除リンクを見つけるために読み取り専用アクセスのみを要求します。メールを削除または送信することはありません。"
+  },
+  "dashboard": {
+    "health_score": "受信箱の健康状態",
+    "pending": "未処理",
+    "stats": {
+      "time_saved": "節約時間",
+      "emails_avoided": "回避したメール",
+      "total_cuts": "解除数",
+      "streak": "連続日数"
+    },
+    "tabs": {
+      "all": "すべて",
+      "promotions": "プロモーション",
+      "newsletter": "ニュースレター",
+      "social": "ソーシャル",
+      "other": "その他"
+    },
+    "actions": {
+    "cut_all": "すべて解除",
+    "cut_archive_all": "すべて解除＆アーカイブ",
+    "cut_archive": "解除+保存",
+    "archive": "アーカイブ",
+    "snooze": "スヌーズ（30日）",
+    "cut": "解除"
+    },
+    "scanning": "受信箱をスキャン中...",
+    "phase_connecting": "接続中",
+    "phase_counting": "メール数を確認中",
+    "phase_scanning": "購読をスキャン中",
+    "scan_found": "{count} 件のメールを発見",
+    "scan_processing": "{count} 件のメールを処理中...",
+    "scan_tip1": "ほとんどのニュースレターは下部に解除リンクがあります",
+    "scan_tip2": "Gmailはプロモーションを別タブに隠します — そこもスキャンします",
+    "scan_tip3": "大きなボタンで一度にすべて解除できます",
+    "scan_tip4": "キーボードで操作するZenモードをお試しください",
+    "scan_taking_long": "通常より時間がかかっています...お待ちください！",
+    "scan_error": "受信箱をスキャンできませんでした",
+    "scan_retry": "再試行",
+    "cleanup_on": "クリーンアップ ON",
+    "cleanup_off": "クリーンアップ OFF",
+    "cleanup_all": "すべてアーカイブ",
+    "cleanup_confirm": "これらの送信者からのメールをすべてアーカイブしますか？受信箱から削除されます。",
+    "history_title": "履歴",
+    "history_empty": "カットはまだありません",
+    "history_undo": "元に戻す",
+    "empty": "登録が見つかりませんでした！🎉",
+    "no_link": "解除リンクが見つかりません",
+    "no_link_desc": "直接のリンクが見つかりませんでした。Gmailで送信者をブロックすることを検討してください。",
+    "freq": "メール/月"
+  },
+  "zen": {
+    "enter": "禅モード",
+    "title": "禅モード",
+    "subtitle": "キーボードの矢印キーを使用",
+    "cut": "解除（←）",
+    "keep": "維持（→）",
+    "snooze": "スヌーズ（↑）",
+    "empty": "カードは残っていません！",
+    "exit": "禅モードを終了",
+    "remaining": "残り"
+  },
+  "celebration": {
+    "title": "受信箱ゼロ！🎉",
+    "desc": "保留中の登録をすべてクリアしました。",
+    "done": "ダッシュボードに戻る"
+  }
+}

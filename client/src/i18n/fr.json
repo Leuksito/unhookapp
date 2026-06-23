@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Nettoyez votre boîte. Retrouvez la paix.",
+    "subtitle": "Trouvez et désabonnez-vous des newsletters, promos et spams en un clic.",
+    "connect": "Connecter avec Gmail",
+    "privacy": "Nous demandons uniquement un accès en lecture pour trouver les liens de désabonnement. Nous ne supprimons ni n'envoyons jamais d'e-mails."
+  },
+  "dashboard": {
+    "health_score": "Santé de la Boîte",
+    "pending": "En attente",
+    "stats": {
+      "time_saved": "Temps Économisé",
+      "emails_avoided": "E-mails Évités",
+      "total_cuts": "Désabonnements",
+      "streak": "Série (Jours)"
+    },
+    "tabs": {
+      "all": "Tous",
+      "promotions": "Promotions",
+      "newsletter": "Newsletters",
+      "social": "Réseaux",
+      "other": "Autres"
+    },
+    "actions": {
+    "cut_all": "Tout désabonner",
+    "cut_archive_all": "Tout désabonner & archiver",
+    "cut_archive": "Désab+Arch",
+    "archive": "Archiver",
+    "snooze": "Rappeler (30j)",
+    "cut": "Couper"
+    },
+    "scanning": "Analyse de votre boîte de réception...",
+    "phase_connecting": "Connexion",
+    "phase_counting": "Comptage des emails",
+    "phase_scanning": "Analyse des abonnements",
+    "scan_found": "{count} emails trouvés",
+    "scan_processing": "Traitement de {count} emails...",
+    "scan_tip1": "La plupart des newsletters ont le lien de désabonnement en bas",
+    "scan_tip2": "Gmail cache les promos dans un onglet séparé — on y regarde aussi",
+    "scan_tip3": "Vous pouvez tout désabonner d'un coup avec le gros bouton",
+    "scan_tip4": "Essayez le Mode Zen pour nettoyer au clavier",
+    "scan_taking_long": "Cela prend plus de temps que d'habitude... patience !",
+    "scan_error": "Impossible de scanner votre boîte",
+    "scan_retry": "Réessayer",
+    "cleanup_on": "Nettoyage ON",
+    "cleanup_off": "Nettoyage OFF",
+    "cleanup_all": "Tout archiver",
+    "cleanup_confirm": "Archiver tous les emails de ces expéditeurs ? Ils seront retirés de votre boîte.",
+    "history_title": "Historique",
+    "history_empty": "Aucune coupure",
+    "history_undo": "Annuler",
+    "empty": "Aucun abonnement trouvé ici ! 🎉",
+    "no_link": "Aucun lien de désabonnement",
+    "no_link_desc": "Nous n'avons pas trouvé de lien direct. Envisagez de bloquer l'expéditeur dans Gmail.",
+    "freq": "e-mails/mois"
+  },
+  "zen": {
+    "enter": "Mode Zen",
+    "title": "Mode Zen",
+    "subtitle": "Utilisez les flèches du clavier",
+    "cut": "Couper (←)",
+    "keep": "Garder (→)",
+    "snooze": "Rappeler (↑)",
+    "empty": "Plus de cartes !",
+    "exit": "Quitter le Mode Zen",
+    "remaining": "restants"
+  },
+  "celebration": {
+    "title": "Boîte à Zéro ! 🎉",
+    "desc": "Vous avez nettoyé tous vos abonnements en attente.",
+    "done": "Retour au Tableau de Bord"
+  }
+}

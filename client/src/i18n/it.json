@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Pulisci la tua casella. Ritrova la tua pace.",
+    "subtitle": "Trova e disiscriviti da newsletter, promozioni e spam con un clic.",
+    "connect": "Connetti con Gmail",
+    "privacy": "Richiediamo solo accesso in lettura per trovare i link di disiscrizione. Non cancelliamo né inviamo mai email."
+  },
+  "dashboard": {
+    "health_score": "Salute della Casella",
+    "pending": "In attesa",
+    "stats": {
+      "time_saved": "Tempo Risparmiato",
+      "emails_avoided": "Email Evitate",
+      "total_cuts": "Disiscrizioni",
+      "streak": "Serie (Giorni)"
+    },
+    "tabs": {
+      "all": "Tutti",
+      "promotions": "Promozioni",
+      "newsletter": "Newsletter",
+      "social": "Social",
+      "other": "Altri"
+    },
+    "actions": {
+    "cut_all": "Disiscrivi tutti",
+    "cut_archive_all": "Disiscrivi e archivia tutto",
+    "cut_archive": "Dis+Arch",
+    "archive": "Archivia",
+    "snooze": "Posticipa (30g)",
+    "cut": "Disiscrivi"
+    },
+    "scanning": "Analisi della tua casella di posta...",
+    "phase_connecting": "Connessione",
+    "phase_counting": "Conteggio email",
+    "phase_scanning": "Scansione abbonamenti",
+    "scan_found": "{count} email trovate",
+    "scan_processing": "Elaborazione di {count} email...",
+    "scan_tip1": "La maggior parte delle newsletter ha il link di cancellazione in fondo",
+    "scan_tip2": "Gmail nasconde le promozioni in una scheda separata — controlliamo anche lì",
+    "scan_tip3": "Puoi disiscrivere tutto in una volta con il pulsante grande",
+    "scan_tip4": "Prova la Modalità Zen per pulire con la tastiera",
+    "scan_taking_long": "Ci sta mettendo più del solito... pazienza!",
+    "scan_error": "Impossibile scansionare la casella",
+    "scan_retry": "Riprova",
+    "cleanup_on": "Pulizia ON",
+    "cleanup_off": "Pulizia OFF",
+    "cleanup_all": "Archivia tutto",
+    "cleanup_confirm": "Archiviare tutte le email di questi mittenti? Verranno rimosse dalla casella.",
+    "history_title": "Cronologia",
+    "history_empty": "Nessun taglio",
+    "history_undo": "Annulla",
+    "empty": "Nessun abbonamento trovato! 🎉",
+    "no_link": "Nessun link di disiscrizione",
+    "no_link_desc": "Non abbiamo trovato un link diretto. Considera di bloccare il mittente in Gmail.",
+    "freq": "email/mese"
+  },
+  "zen": {
+    "enter": "Modalità Zen",
+    "title": "Modalità Zen",
+    "subtitle": "Usa le frecce della tastiera",
+    "cut": "Disiscrivi (←)",
+    "keep": "Mantieni (→)",
+    "snooze": "Posticipa (↑)",
+    "empty": "Nessuna carta rimasta!",
+    "exit": "Esci dalla Modalità Zen",
+    "remaining": "rimanenti"
+  },
+  "celebration": {
+    "title": "Casella a Zero! 🎉",
+    "desc": "Hai pulito con successo tutti gli abbonamenti in sospeso.",
+    "done": "Torna alla Dashboard"
+  }
+}

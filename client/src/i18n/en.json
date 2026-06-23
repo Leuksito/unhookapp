@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Clean your inbox. Restore your peace.",
+    "subtitle": "Easily find and unsubscribe from newsletters, promos, and spam with one click.",
+    "connect": "Connect with Gmail",
+    "privacy": "We only request read-only access to find unsubscribe links. We never delete or send emails."
+  },
+  "dashboard": {
+    "health_score": "Inbox Health",
+    "pending": "Pending to cut",
+    "stats": {
+      "time_saved": "Time Saved",
+      "emails_avoided": "Emails Avoided",
+      "total_cuts": "Total Cuts",
+      "streak": "Day Streak"
+    },
+    "tabs": {
+      "all": "All",
+      "promotions": "Promotions",
+      "newsletter": "Newsletters",
+      "social": "Social",
+      "other": "Other"
+    },
+    "actions": {
+    "cut_all": "Cut All Visible",
+    "cut_archive_all": "Cut & Archive All",
+    "cut_archive": "Cut+Arch",
+    "archive": "Archive",
+    "snooze": "Snooze (30d)",
+    "cut": "Cut"
+    },
+    "scanning": "Scanning your inbox for subscriptions...",
+    "phase_connecting": "Connecting",
+    "phase_counting": "Counting emails",
+    "phase_scanning": "Scanning subscriptions",
+    "scan_found": "{count} emails found",
+    "scan_processing": "Processing {count} emails...",
+    "scan_tip1": "Most newsletters have an unsubscribe link at the bottom",
+    "scan_tip2": "Gmail hides promotions in a separate tab — we scan there too",
+    "scan_tip3": "You can cut all subscriptions at once with the big button",
+    "scan_tip4": "Try Zen Mode for a keyboard-powered cleanup session",
+    "scan_taking_long": "This is taking longer than usual... hang tight!",
+    "scan_error": "Couldn't scan your inbox",
+    "scan_retry": "Try Again",
+    "cleanup_on": "Cleanup ON",
+    "cleanup_off": "Cleanup OFF",
+    "cleanup_all": "Archive all",
+    "cleanup_confirm": "Archive all existing emails from these senders? This removes them from your inbox.",
+    "history_title": "History",
+    "history_empty": "No cuts yet",
+    "history_undo": "Undo",
+    "empty": "No subscriptions found here! 🎉",
+    "no_link": "No Unsubscribe Link Found",
+    "no_link_desc": "We couldn't find a direct link. Consider blocking this sender in Gmail or marking as spam.",
+    "freq": "emails/mo"
+  },
+  "zen": {
+    "enter": "Zen Mode",
+    "title": "Zen Mode",
+    "subtitle": "Use your keyboard arrows",
+    "cut": "Cut (←)",
+    "keep": "Keep (→)",
+    "snooze": "Snooze (↑)",
+    "empty": "No more cards left!",
+    "exit": "Exit Zen Mode",
+    "remaining": "left"
+  },
+  "celebration": {
+    "title": "Inbox Zero! 🎉",
+    "desc": "You've successfully cleared your pending subscriptions.",
+    "done": "Back to Dashboard"
+  }
+}

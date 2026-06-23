@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Limpe sua caixa de entrada. Recupere sua paz.",
+    "subtitle": "Encontre e cancele a inscrição de newsletters, promoções e spam com um clique.",
+    "connect": "Conectar com Gmail",
+    "privacy": "Solicitamos apenas acesso de leitura para encontrar links de cancelamento. Nunca excluímos ou enviamos e-mails."
+  },
+  "dashboard": {
+    "health_score": "Saúde da Caixa",
+    "pending": "Pendentes",
+    "stats": {
+      "time_saved": "Tempo Economizado",
+      "emails_avoided": "E-mails Evitados",
+      "total_cuts": "Cancelamentos",
+      "streak": "Sequência (Dias)"
+    },
+    "tabs": {
+      "all": "Todos",
+      "promotions": "Promoções",
+      "newsletter": "Newsletters",
+      "social": "Redes",
+      "other": "Outros"
+    },
+    "actions": {
+    "cut_all": "Cancelar Todos",
+    "cut_archive_all": "Cancelar e Arquivar Tudo",
+    "cut_archive": "Canc+Arq",
+    "archive": "Arquivar",
+    "snooze": "Adiar (30d)",
+    "cut": "Cancelar"
+    },
+    "scanning": "Escaneando sua caixa de entrada...",
+    "phase_connecting": "Conectando",
+    "phase_counting": "Contando e-mails",
+    "phase_scanning": "Escaneando assinaturas",
+    "scan_found": "{count} e-mails encontrados",
+    "scan_processing": "Processando {count} e-mails...",
+    "scan_tip1": "A maioria dos newsletters tem o link de cancelamento no final",
+    "scan_tip2": "O Gmail esconde promoções em outra aba — também escaneamos lá",
+    "scan_tip3": "Você pode cancelar tudo de uma vez com o botão grande",
+    "scan_tip4": "Experimente o Modo Zen para limpar com o teclado",
+    "scan_taking_long": "Está demorando mais que o normal... paciência!",
+    "scan_error": "Não foi possível escanear sua caixa",
+    "scan_retry": "Tentar novamente",
+    "cleanup_on": "Limpeza ON",
+    "cleanup_off": "Limpeza OFF",
+    "cleanup_all": "Arquivar tudo",
+    "cleanup_confirm": "Arquivar todos os e-mails desses remetentes? Eles serão removidos da sua caixa.",
+    "history_title": "Histórico",
+    "history_empty": "Nenhum corte",
+    "history_undo": "Desfazer",
+    "empty": "Nenhuma assinatura encontrada! 🎉",
+    "no_link": "Nenhum link de cancelamento",
+    "no_link_desc": "Não encontramos um link direto. Considere bloquear o remetente no Gmail.",
+    "freq": "e-mails/mês"
+  },
+  "zen": {
+    "enter": "Modo Zen",
+    "title": "Modo Zen",
+    "subtitle": "Use as setas do teclado",
+    "cut": "Cancelar (←)",
+    "keep": "Manter (→)",
+    "snooze": "Adiar (↑)",
+    "empty": "Sem mais cartões!",
+    "exit": "Sair do Modo Zen",
+    "remaining": "restantes"
+  },
+  "celebration": {
+    "title": "Caixa Zero! 🎉",
+    "desc": "Você limpou todas as assinaturas pendentes.",
+    "done": "Voltar ao Painel"
+  }
+}

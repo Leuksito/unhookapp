@@ -1,0 +1,70 @@
+.scan-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.scan-phases {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: var(--bg-card);
+  padding: 2rem 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.scan-phase {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0.35;
+  transition: all 0.5s ease;
+}
+
+.scan-phase.active {
+  opacity: 1;
+}
+
+.scan-phase.done {
+  opacity: 0.7;
+}
+
+.scan-phase-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  flex-shrink: 0;
+}
+
+.scan-phase.active .scan-phase-icon {
+  animation: phasePulse 2s ease infinite;
+}
+
+@keyframes phasePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(199, 91, 57, 0.25); }
+  50% { box-shadow: 0 0 0 10px rgba(199, 91, 57, 0); }
+}
+
+.scan-phase-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.scan-phase-spinner {
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,73 @@
+{
+  "login": {
+    "title": "Limpia tu correo. Recupera tu paz.",
+    "subtitle": "Encuentra y date de baja de boletines, promociones y spam con un solo clic.",
+    "connect": "Conectar con Gmail",
+    "privacy": "Solo pedimos acceso de lectura para encontrar enlaces de baja. Nunca borramos ni enviamos correos."
+  },
+  "dashboard": {
+    "health_score": "Salud de Bandeja",
+    "pending": "Pendientes por cortar",
+    "stats": {
+      "time_saved": "Tiempo Ahorrado",
+      "emails_avoided": "Correos Evitados",
+      "total_cuts": "Cortes Totales",
+      "streak": "Racha (Días)"
+    },
+    "tabs": {
+      "all": "Todos",
+      "promotions": "Promociones",
+      "newsletter": "Boletines",
+      "social": "Redes",
+      "other": "Otros"
+    },
+    "actions": {
+    "cut_all": "Cortar Visibles",
+    "cut_archive_all": "Cortar y Archivar Todo",
+    "cut_archive": "Cort+Arch",
+    "archive": "Archivar",
+    "snooze": "Posponer (30d)",
+    "cut": "Cortar"
+    },
+    "scanning": "Escaneando tu bandeja en busca de suscripciones...",
+    "phase_connecting": "Conectando",
+    "phase_counting": "Contando correos",
+    "phase_scanning": "Escaneando suscripciones",
+    "scan_found": "{count} correos encontrados",
+    "scan_processing": "Procesando {count} correos...",
+    "scan_tip1": "La mayoría de newsletters tienen el enlace de baja al final",
+    "scan_tip2": "Gmail esconde promociones en otra pestaña — también escaneamos ahí",
+    "scan_tip3": "Puedes cortar todas las suscripciones de golpe con el botón grande",
+    "scan_tip4": "Prueba el Modo Zen para limpiar con el teclado",
+    "scan_taking_long": "Está tardando más de lo normal... ¡paciencia!",
+    "scan_error": "No se pudo escanear tu bandeja",
+    "scan_retry": "Intentar de nuevo",
+    "cleanup_on": "Limpiar ON",
+    "cleanup_off": "Limpiar OFF",
+    "cleanup_all": "Archivar todo",
+    "cleanup_confirm": "¿Archivar todos los correos existentes de estos remitentes? Se quitarán de tu bandeja.",
+    "history_title": "Historial",
+    "history_empty": "Aún sin cortes",
+    "history_undo": "Deshacer",
+    "empty": "¡No hay suscripciones pendientes aquí! 🎉",
+    "no_link": "No se encontró enlace",
+    "no_link_desc": "No pudimos encontrar un enlace directo. Considera bloquear a este remitente en Gmail o marcarlo como spam.",
+    "freq": "correos/mes"
+  },
+  "zen": {
+    "enter": "Modo Zen",
+    "title": "Modo Zen",
+    "subtitle": "Usa las flechas de tu teclado",
+    "cut": "Cortar (←)",
+    "keep": "Mantener (→)",
+    "snooze": "Posponer (↑)",
+    "empty": "¡No quedan más tarjetas!",
+    "exit": "Salir del Modo Zen",
+    "remaining": "restantes"
+  },
+  "celebration": {
+    "title": "¡Bandeja a Cero! 🎉",
+    "desc": "Has limpiado con éxito tus suscripciones pendientes.",
+    "done": "Volver al Inicio"
+  }
+}

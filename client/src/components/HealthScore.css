@@ -1,0 +1,66 @@
+.health-score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.health-circle-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.health-svg {
+  transform: rotate(-90deg);
+}
+
+.health-bg {
+  fill: none;
+  stroke: var(--bg-secondary);
+}
+
+.health-progress {
+  fill: none;
+  transition: stroke-dashoffset 1s cubic-bezier(0.25, 0.8, 0.25, 1), stroke 0.5s ease;
+}
+
+.score-green {
+  stroke: var(--accent-success);
+}
+
+.score-amber {
+  stroke: var(--accent-warning);
+}
+
+.score-red {
+  stroke: var(--accent-danger);
+}
+
+.health-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.health-score-container h3 {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+}
+
+.health-score-container p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
