@@ -8,7 +8,8 @@ import Celebration from './Celebration';
 import ZenMode from './ZenMode';
 import ScanProgress from './ScanProgress';
 import HistoryPanel from './HistoryPanel';
-import { Scissors, Wind, Clock, RotateCcw } from 'lucide-react';
+import { Scissors, Wind, Clock, RotateCcw, Sparkles } from 'lucide-react';
+import Classifier from './Classifier';
 import './Dashboard.css';
 
 export default function Dashboard({ user, setAuth }) {
@@ -16,11 +17,12 @@ export default function Dashboard({ user, setAuth }) {
   const [senders, setSenders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
-  const [stats, setStats] = useState({ streak: user.streak, total_cuts: user.total_cuts });
+  const [stats, setStats] = useState({ streak: user?.streak ?? 0, total_cuts: user?.total_cuts ?? 0 });
   const [showCelebration, setShowCelebration] = useState(false);
   const [originalTotal, setOriginalTotal] = useState(0);
   const [isZenMode, setIsZenMode] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showClassifier, setShowClassifier] = useState(false);
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
@@ -173,10 +175,14 @@ export default function Dashboard({ user, setAuth }) {
             </div>
 
             {filteredSenders.length > 0 && (
-              <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              <div className="action-bar" style={{ marginBottom: '2rem' }}>
                 <button className="btn-secondary" onClick={() => setIsZenMode(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--accent-success)', color: 'white' }}>
                   <Wind size={18} />
                   {t('zen.enter')}
+                </button>
+                <button className="btn-secondary" onClick={() => setShowClassifier(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Sparkles size={18} />
+                  Clasificar con IA
                 </button>
               </div>
             )}
@@ -225,6 +231,13 @@ export default function Dashboard({ user, setAuth }) {
         <HistoryPanel
           onClose={() => setShowHistory(false)}
           onUndone={handleUndone}
+        />
+      )}
+
+      {showClassifier && senders.length > 0 && (
+        <Classifier
+          senders={senders}
+          onClose={() => setShowClassifier(false)}
         />
       )}
 

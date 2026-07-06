@@ -65,6 +65,27 @@
     "exit": "Salir del Modo Zen",
     "remaining": "restantes"
   },
+  "classifier": {
+    "title": "Clasificación con IA",
+    "desc": "Gemini AI clasifica tus remitentes en categorías automáticamente",
+    "classify": "Clasificar con IA",
+    "reclassify": "Re-clasificar",
+    "apply_labels": "Crear labels en Gmail",
+    "applied": "¡Labels aplicadas!",
+    "applying": "Aplicando...",
+    "analyzing": "Analizando remitentes...",
+    "progress": "Gemini IA está clasificando {count} remitentes",
+    "confidence": "Confianza",
+    "categories": {
+      "work": "Trabajo",
+      "personal": "Personal",
+      "bills": "Facturas",
+      "social": "Social",
+      "promotions": "Promociones",
+      "notifications": "Notificaciones",
+      "other": "Otros"
+    }
+  },
   "celebration": {
     "title": "¡Bandeja a Cero! 🎉",
     "desc": "Has limpiado con éxito tus suscripciones pendientes.",

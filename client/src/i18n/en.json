@@ -65,6 +65,27 @@
     "exit": "Exit Zen Mode",
     "remaining": "left"
   },
+  "classifier": {
+    "title": "AI Classification",
+    "desc": "Gemini AI automatically classifies your senders into categories",
+    "classify": "Classify with AI",
+    "reclassify": "Re-classify",
+    "apply_labels": "Create Gmail labels",
+    "applied": "Labels applied!",
+    "applying": "Applying...",
+    "analyzing": "Analyzing senders...",
+    "progress": "Gemini AI is classifying {count} senders",
+    "confidence": "Confidence",
+    "categories": {
+      "work": "Work",
+      "personal": "Personal",
+      "bills": "Bills",
+      "social": "Social",
+      "promotions": "Promotions",
+      "notifications": "Notifications",
+      "other": "Other"
+    }
+  },
   "celebration": {
     "title": "Inbox Zero! 🎉",
     "desc": "You've successfully cleared your pending subscriptions.",

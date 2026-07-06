@@ -1,78 +1,53 @@
-export const api = {
-  async getAuthStatus() {
-    const res = await fetch('/api/auth/status');
-    return res.json();
-  },
-
-  async getAuthUrl() {
-    const res = await fetch('/api/auth/url');
-    return res.json();
-  },
-
-  async loginDemo() {
-    const res = await fetch('/api/auth/demo', { method: 'POST' });
-    return res.json();
-  },
-
-  async logout() {
-    const res = await fetch('/api/auth/logout', { method: 'POST' });
-    return res.json();
-  },
-
-  async scanEmails() {
-    const res = await fetch('/api/emails/scan');
-    if (!res.ok) throw new Error('Failed to scan emails');
-    return res.json();
-  },
-
-  async cutSender(senderEmail, senderName) {
-    const res = await fetch('/api/emails/cut', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ senderEmail, senderName })
-    });
-    return res.json();
-  },
-
-  async snoozeSender(senderEmail) {
-    const res = await fetch('/api/emails/snooze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ senderEmail })
-    });
-    return res.json();
-  },
-
-  async getHistory() {
-    const res = await fetch('/api/emails/history');
-    if (!res.ok) throw new Error('Failed to fetch history');
-    return res.json();
-  },
-
-  async undoCut(cutId) {
-    const res = await fetch('/api/emails/undo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cutId })
-    });
-    return res.json();
-  },
-
-  async archiveSender(senderEmail) {
-    const res = await fetch('/api/emails/archive', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ senderEmail })
-    });
-    return res.json();
-  },
-
-  async cutAndArchive(senderEmail, senderName) {
-    const res = await fetch('/api/emails/archive-cut', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ senderEmail, senderName })
-    });
-    return res.json();
+async function request(url, options = {}) {
+  const headers = { ...(options.headers || {}) };
+  if (options.body && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json';
   }
+  const res = await fetch(url, { ...options, headers });
+
+  let data = null;
+  const text = await res.text();
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text };
+    }
+  }
+
+  if (!res.ok) {
+    const message = (data && data.error) || `Request failed (${res.status})`;
+    const err = new Error(message);
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
+
+function post(url, body) {
+  return request(url, {
+    method: 'POST',
+    body: JSON.stringify(body || {})
+  });
+}
+
+export const api = {
+  getAuthStatus: () => request('/api/auth/status'),
+  getAuthUrl: () => request('/api/auth/url'),
+  loginDemo: () => post('/api/auth/demo'),
+  logout: () => post('/api/auth/logout'),
+
+  scanEmails: () => request('/api/emails/scan'),
+  cutSender: (senderEmail, senderName) => post('/api/emails/cut', { senderEmail, senderName }),
+  snoozeSender: (senderEmail) => post('/api/emails/snooze', { senderEmail }),
+  getHistory: () => request('/api/emails/history'),
+  undoCut: (cutId) => post('/api/emails/undo', { cutId }),
+
+  classifySenders: (senders) => post('/api/emails/classify', { senders }),
+  getClassifications: () => request('/api/emails/classifications'),
+  reassignClassification: (senderEmail, category) => post('/api/emails/classifications/reassign', { senderEmail, category }),
+  applyLabels: () => post('/api/emails/classifications/apply-labels'),
+  clearClassifications: () => post('/api/emails/classifications/clear'),
+  revertLabels: () => post('/api/emails/classifications/revert-labels')
 };

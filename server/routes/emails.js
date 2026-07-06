@@ -1,9 +1,12 @@
 const express = require('express');
 const { google } = require('googleapis');
 const { OAuth2Client } = require('google-auth-library');
-const { getUserById, addCut, addSnooze, getActiveSnoozes, getStreakInfo, getCutById, getRecentCuts, removeCut } = require('../db/queries');
+const { getUserById, updateUserTokens, addCut, addSnooze, getActiveSnoozes, getStreakInfo, getCutById, getRecentCuts, removeCut } = require('../db/queries');
 const { extractUnsubscribeLink, classifySender, estimateFrequency, extractTextSnippet } = require('../services/parser');
 const { getMessagesWithBackoff, getMessageDetailsWithBackoff } = require('../services/gmail');
+const { applyToAllMessages } = require('../services/gmailHelper');
+const { classifySenders } = require('../services/classifier');
+const { saveClassifications, getClassificationsByCategory, updateClassification, deleteClassifications, getClassificationByEmail } = require('../db/queries');
 
 const router = express.Router();
 
@@ -37,17 +40,9 @@ const getGmailClient = (user) => {
     expiry_date: user.token_expiry
   });
   
-  // Handle auto-refresh in DB if needed (google-auth-library does it in memory, 
-  // but for a real app we'd attach a 'tokens' event listener to update the DB).
+  // Persist refreshed tokens to the DB (encrypted) when google-auth-library rotates them.
   oAuth2Client.on('tokens', (tokens) => {
-    const db = require('../db/init').getDb();
-    if (tokens.refresh_token) {
-      db.prepare('UPDATE users SET access_token = ?, refresh_token = ?, token_expiry = ? WHERE id = ?')
-        .run(tokens.access_token, tokens.refresh_token, tokens.expiry_date, user.id);
-    } else {
-      db.prepare('UPDATE users SET access_token = ?, token_expiry = ? WHERE id = ?')
-        .run(tokens.access_token, tokens.expiry_date, user.id);
-    }
+    updateUserTokens(user.id, tokens);
   });
 
   return google.gmail({ version: 'v1', auth: oAuth2Client });
@@ -240,27 +235,11 @@ router.post('/cut', checkAuth, async (req, res) => {
     if (req.user.id !== 'demo_user') {
       const gmail = getGmailClient(req.user);
 
-      let pageToken = null;
-      do {
-        const response = await getMessagesWithBackoff(gmail, {
-          userId: 'me',
-          q: `from:${senderEmail}`,
-          maxResults: 100,
-          pageToken
-        });
-        if (response.data.messages) {
-          const batch = response.data.messages.map(m => m.id);
-          await gmail.users.messages.batchModify({
-            userId: 'me',
-            requestBody: {
-              ids: batch,
-              addLabelIds: ['TRASH']
-            }
-          });
-          trashed += batch.length;
-        }
-        pageToken = response.data.nextPageToken;
-      } while (pageToken);
+      trashed = await applyToAllMessages(
+        gmail,
+        `from:${senderEmail}`,
+        { addLabelIds: ['TRASH'] }
+      );
 
       try {
         const filterRes = await gmail.users.settings.filters.create({
@@ -322,28 +301,11 @@ router.post('/undo', checkAuth, async (req, res) => {
       // Restore trashed emails back to inbox
       if (cut.trashed_count > 0) {
         try {
-          let pageToken = null;
-          do {
-            const response = await getMessagesWithBackoff(gmail, {
-              userId: 'me',
-              q: `from:${cut.sender_email} in:trash`,
-              maxResults: 100,
-              pageToken
-            });
-            if (response.data.messages) {
-              const batch = response.data.messages.map(m => m.id);
-              await gmail.users.messages.batchModify({
-                userId: 'me',
-                requestBody: {
-                  ids: batch,
-                  removeLabelIds: ['TRASH'],
-                  addLabelIds: ['INBOX']
-                }
-              });
-              restored += batch.length;
-            }
-            pageToken = response.data.nextPageToken;
-          } while (pageToken);
+          restored = await applyToAllMessages(
+            gmail,
+            `from:${cut.sender_email} in:trash`,
+            { removeLabelIds: ['TRASH'], addLabelIds: ['INBOX'] }
+          );
         } catch (restoreErr) {
           console.error('Restore error:', restoreErr.message);
         }
@@ -402,28 +364,11 @@ router.post('/archive', checkAuth, async (req, res) => {
       return res.json({ success: true, archived: 5 });
     }
     const gmail = getGmailClient(req.user);
-    let archived = 0;
-    let pageToken = null;
-    do {
-      const response = await getMessagesWithBackoff(gmail, {
-        userId: 'me',
-        q: `from:${senderEmail}`,
-        maxResults: 100,
-        pageToken
-      });
-      if (response.data.messages) {
-        const batch = response.data.messages.map(m => m.id);
-        await gmail.users.messages.batchModify({
-          userId: 'me',
-          requestBody: {
-            ids: batch,
-            removeLabelIds: ['INBOX']
-          }
-        });
-        archived += batch.length;
-      }
-      pageToken = response.data.nextPageToken;
-    } while (pageToken);
+    const archived = await applyToAllMessages(
+      gmail,
+      `from:${senderEmail}`,
+      { removeLabelIds: ['INBOX'] }
+    );
     res.json({ success: true, archived });
   } catch (error) {
     console.error('Archive error:', error);
@@ -443,27 +388,11 @@ router.post('/archive-cut', checkAuth, async (req, res) => {
     let archived = 0;
     if (req.user.id !== 'demo_user') {
       const gmail = getGmailClient(req.user);
-      let pageToken = null;
-      do {
-        const response = await getMessagesWithBackoff(gmail, {
-          userId: 'me',
-          q: `from:${senderEmail}`,
-          maxResults: 100,
-          pageToken
-        });
-        if (response.data.messages) {
-          const batch = response.data.messages.map(m => m.id);
-          await gmail.users.messages.batchModify({
-            userId: 'me',
-            requestBody: {
-              ids: batch,
-              removeLabelIds: ['INBOX']
-            }
-          });
-          archived += batch.length;
-        }
-        pageToken = response.data.nextPageToken;
-      } while (pageToken);
+      archived = await applyToAllMessages(
+        gmail,
+        `from:${senderEmail}`,
+        { removeLabelIds: ['INBOX'] }
+      );
     }
 
     res.json({
@@ -475,6 +404,172 @@ router.post('/archive-cut', checkAuth, async (req, res) => {
   } catch (error) {
     console.error('Archive-cut error:', error);
     res.status(500).json({ error: 'Failed to archive and cut' });
+  }
+});
+
+router.post('/classify', checkAuth, async (req, res) => {
+  try {
+    const { senders } = req.body;
+    if (!senders || !Array.isArray(senders) || senders.length === 0) {
+      return res.status(400).json({ error: 'Missing or empty senders array' });
+    }
+
+    if (req.user.id === 'demo_user') {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const demoResults = senders.map((s, i) => {
+        const cats = ['promotions', 'social', 'notifications', 'work', 'personal', 'bills', 'other'];
+        return {
+          email: s.email,
+          name: s.name,
+          exampleSubject: s.exampleSubject || '',
+          lastSnippet: s.lastSnippet || '',
+          category: cats[i % cats.length],
+          confidence: 0.85 + (i % 3) * 0.05
+        };
+      });
+      saveClassifications(req.user.id, demoResults);
+      return res.json({ classifications: getClassificationsByCategory(req.user.id) });
+    }
+
+    const results = await classifySenders(senders, (current, total) => {
+      console.log(`Classified ${current}/${total} senders`);
+    });
+
+    saveClassifications(req.user.id, results);
+    const grouped = getClassificationsByCategory(req.user.id);
+
+    res.json({ classifications: grouped });
+  } catch (error) {
+    console.error('Classification error:', error);
+    res.status(500).json({ error: 'Failed to classify senders' });
+  }
+});
+
+router.get('/classifications', checkAuth, (req, res) => {
+  try {
+    const grouped = getClassificationsByCategory(req.user.id);
+    res.json({ classifications: grouped });
+  } catch (error) {
+    console.error('Get classifications error:', error);
+    res.status(500).json({ error: 'Failed to get classifications' });
+  }
+});
+
+router.post('/classifications/reassign', checkAuth, (req, res) => {
+  const { senderEmail, category } = req.body;
+  if (!senderEmail || !category) {
+    return res.status(400).json({ error: 'Missing senderEmail or category' });
+  }
+  try {
+    updateClassification(req.user.id, senderEmail, category);
+    const grouped = getClassificationsByCategory(req.user.id);
+    res.json({ success: true, classifications: grouped });
+  } catch (error) {
+    console.error('Reassign error:', error);
+    res.status(500).json({ error: 'Failed to reassign' });
+  }
+});
+
+router.post('/classifications/apply-labels', checkAuth, async (req, res) => {
+  try {
+    if (req.user.id === 'demo_user') {
+      return res.json({ success: true, labelsCreated: 0, messagesLabeled: 0 });
+    }
+
+    const gmail = getGmailClient(req.user);
+    const grouped = getClassificationsByCategory(req.user.id);
+    let labelsCreated = 0;
+    let messagesLabeled = 0;
+
+    const labelMap = {
+      work: 'Unhook/Trabajo',
+      personal: 'Unhook/Personal',
+      bills: 'Unhook/Facturas',
+      social: 'Unhook/Social',
+      promotions: 'Unhook/Promociones',
+      notifications: 'Unhook/Notificaciones',
+      other: 'Unhook/Otros'
+    };
+
+    const existingLabelsRes = await gmail.users.labels.list({ userId: 'me' });
+    const existingLabels = existingLabelsRes.data.labels || [];
+    const createdLabelIds = {};
+
+    for (const [cat, labelName] of Object.entries(labelMap)) {
+      let label = existingLabels.find(l => l.name === labelName);
+      if (!label) {
+        const created = await gmail.users.labels.create({
+          userId: 'me',
+          requestBody: {
+            name: labelName,
+            labelListVisibility: 'labelShow',
+            messageListVisibility: 'show'
+          }
+        });
+        label = created.data;
+        labelsCreated++;
+      }
+      createdLabelIds[cat] = label.id;
+    }
+
+    for (const [cat, senders] of Object.entries(grouped)) {
+      const labelId = createdLabelIds[cat];
+      if (!labelId) continue;
+      for (const s of senders) {
+        try {
+          const count = await applyToAllMessages(
+            gmail,
+            `from:${s.sender_email}`,
+            { addLabelIds: [labelId] }
+          );
+          messagesLabeled += count;
+        } catch (err) {
+          console.error(`Label error for ${s.sender_email}:`, err.message);
+        }
+      }
+    }
+
+    res.json({ success: true, labelsCreated, messagesLabeled });
+  } catch (error) {
+    console.error('Apply labels error:', error);
+    res.status(500).json({ error: 'Failed to apply labels' });
+  }
+});
+
+router.post('/classifications/clear', checkAuth, (req, res) => {
+  try {
+    deleteClassifications(req.user.id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Clear classifications error:', error);
+    res.status(500).json({ error: 'Failed to clear classifications' });
+  }
+});
+
+router.post('/classifications/revert-labels', checkAuth, async (req, res) => {
+  try {
+    if (req.user.id === 'demo_user') {
+      return res.json({ success: true, labelsRemoved: 0 });
+    }
+
+    const gmail = getGmailClient(req.user);
+    const labelsRes = await gmail.users.labels.list({ userId: 'me' });
+    const unhookLabels = (labelsRes.data.labels || []).filter(l => l.name.startsWith('Unhook/'));
+    let labelsRemoved = 0;
+
+    for (const label of unhookLabels) {
+      try {
+        await gmail.users.labels.delete({ userId: 'me', id: label.id });
+        labelsRemoved++;
+      } catch (err) {
+        console.error(`Failed to delete label ${label.name}:`, err.message);
+      }
+    }
+
+    res.json({ success: true, labelsRemoved });
+  } catch (error) {
+    console.error('Revert labels error:', error);
+    res.status(500).json({ error: 'Failed to revert labels' });
   }
 });
 

@@ -56,6 +56,19 @@ function initDb() {
       FOREIGN KEY (user_id) REFERENCES users (id)
     );
 
+    CREATE TABLE IF NOT EXISTS classifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT,
+      sender_email TEXT,
+      sender_name TEXT,
+      example_subject TEXT,
+      last_snippet TEXT,
+      category TEXT,
+      confidence REAL DEFAULT 0.5,
+      classified_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id)
+    );
+
     CREATE TABLE IF NOT EXISTS streaks (
       user_id TEXT PRIMARY KEY,
       current_streak INTEGER DEFAULT 0,
@@ -63,6 +76,13 @@ function initDb() {
       total_cuts INTEGER DEFAULT 0,
       FOREIGN KEY (user_id) REFERENCES users (id)
     );
+  `);
+
+  // Indexes for query performance (idempotent)
+  db.exec(`
+    CREATE INDEX IF NOT EXISTS idx_cuts_user ON cuts(user_id, cut_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_snoozes_user ON snoozes(user_id, snooze_until);
+    CREATE INDEX IF NOT EXISTS idx_classifications_user ON classifications(user_id, category);
   `);
 
   return db;

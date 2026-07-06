@@ -8,11 +8,17 @@
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["gmail", "unsubscribe", "inbox", "cleanup"],
+  "keywords": [
+    "gmail",
+    "unsubscribe",
+    "inbox",
+    "cleanup"
+  ],
   "author": "",
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "better-sqlite3": "^12.11.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

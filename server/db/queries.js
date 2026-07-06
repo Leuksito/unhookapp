@@ -1,14 +1,20 @@
 const { getDb } = require('./init');
+const { encrypt, decrypt } = require('../services/crypto');
 
 function getUserById(id) {
   const db = getDb();
-  return db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+  const row = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+  if (row) {
+    row.access_token = decrypt(row.access_token);
+    row.refresh_token = decrypt(row.refresh_token);
+  }
+  return row;
 }
 
 function upsertUser(user) {
   const db = getDb();
   const existing = db.prepare('SELECT id FROM users WHERE google_id = ?').get(user.google_id);
-  
+
   if (existing) {
     db.prepare(`
       UPDATE users SET
@@ -16,14 +22,37 @@ function upsertUser(user) {
         refresh_token = COALESCE(?, users.refresh_token),
         token_expiry = ?
       WHERE google_id = ?
-    `).run(user.access_token, user.refresh_token, user.token_expiry, user.google_id);
+    `).run(
+      encrypt(user.access_token),
+      encrypt(user.refresh_token),
+      user.token_expiry,
+      user.google_id
+    );
     return existing.id;
   } else {
     db.prepare(`
       INSERT INTO users (id, google_id, email, access_token, refresh_token, token_expiry)
       VALUES (?, ?, ?, ?, ?, ?)
-    `).run(user.id, user.google_id, user.email, user.access_token, user.refresh_token, user.token_expiry);
+    `).run(
+      user.id,
+      user.google_id,
+      user.email,
+      encrypt(user.access_token),
+      encrypt(user.refresh_token),
+      user.token_expiry
+    );
     return user.id;
+  }
+}
+
+function updateUserTokens(userId, tokens) {
+  const db = getDb();
+  if (tokens.refresh_token) {
+    db.prepare('UPDATE users SET access_token = ?, refresh_token = ?, token_expiry = ? WHERE id = ?')
+      .run(encrypt(tokens.access_token), encrypt(tokens.refresh_token), tokens.expiry_date, userId);
+  } else {
+    db.prepare('UPDATE users SET access_token = ?, token_expiry = ? WHERE id = ?')
+      .run(encrypt(tokens.access_token), tokens.expiry_date, userId);
   }
 }
 
@@ -114,9 +143,57 @@ function updateLanguage(userId, language) {
   db.prepare('UPDATE users SET language = ? WHERE id = ?').run(language, userId);
 }
 
+function saveClassifications(userId, classifications) {
+  const db = getDb();
+  const del = db.prepare('DELETE FROM classifications WHERE user_id = ?');
+  const ins = db.prepare(`
+    INSERT INTO classifications (user_id, sender_email, sender_name, example_subject, last_snippet, category, confidence)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+  const transaction = db.transaction((userId, items) => {
+    del.run(userId);
+    for (const item of items) {
+      ins.run(userId, item.email, item.name, item.exampleSubject, item.lastSnippet, item.category, item.confidence);
+    }
+  });
+  transaction(userId, classifications);
+}
+
+function getClassifications(userId) {
+  const db = getDb();
+  return db.prepare('SELECT * FROM classifications WHERE user_id = ? ORDER BY category, sender_name').all(userId);
+}
+
+function getClassificationsByCategory(userId) {
+  const db = getDb();
+  const rows = db.prepare('SELECT * FROM classifications WHERE user_id = ? ORDER BY category, sender_name').all(userId);
+  const grouped = {};
+  for (const row of rows) {
+    if (!grouped[row.category]) grouped[row.category] = [];
+    grouped[row.category].push(row);
+  }
+  return grouped;
+}
+
+function updateClassification(userId, senderEmail, category) {
+  const db = getDb();
+  db.prepare('UPDATE classifications SET category = ?, confidence = 1.0 WHERE user_id = ? AND sender_email = ?').run(category, userId, senderEmail);
+}
+
+function deleteClassifications(userId) {
+  const db = getDb();
+  db.prepare('DELETE FROM classifications WHERE user_id = ?').run(userId);
+}
+
+function getClassificationByEmail(userId, senderEmail) {
+  const db = getDb();
+  return db.prepare('SELECT * FROM classifications WHERE user_id = ? AND sender_email = ?').get(userId, senderEmail);
+}
+
 module.exports = {
   getUserById,
   upsertUser,
+  updateUserTokens,
   addCut,
   addSnooze,
   getActiveSnoozes,
@@ -124,5 +201,11 @@ module.exports = {
   updateLanguage,
   getCutById,
   getRecentCuts,
-  removeCut
+  removeCut,
+  saveClassifications,
+  getClassifications,
+  getClassificationsByCategory,
+  updateClassification,
+  deleteClassifications,
+  getClassificationByEmail
 };

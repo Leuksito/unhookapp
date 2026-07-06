@@ -32,7 +32,7 @@ export default function Header({ user, setAuth, streak }) {
           <LanguageMenu />
           
           <div className="user-profile">
-            <div className="user-avatar">{user?.email.charAt(0).toUpperCase()}</div>
+            <div className="user-avatar">{user?.email?.charAt?.(0)?.toUpperCase() ?? '?'}</div>
             <button className="icon-btn logout-btn" onClick={handleLogout} title="Logout">
               <LogOut size={18} />
             </button>
