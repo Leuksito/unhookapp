@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import I18nContext from './context';
 import en from './en.json';
 import es from './es.json';
 import fr from './fr.json';
@@ -9,8 +10,6 @@ import ja from './ja.json';
 
 const translations = { en, es, fr, pt, de, it, ja };
 
-const I18nContext = createContext();
-
 export function I18nProvider({ children }) {
   const [lang, setLang] = useState(() => {
     return localStorage.getItem('unhook_lang') || 'es';
@@ -18,14 +17,21 @@ export function I18nProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('unhook_lang', lang);
+    document.documentElement.lang = lang;
   }, [lang]);
 
-  const t = (key) => {
+  const t = (key, params) => {
     const keys = key.split('.');
     let value = translations[lang];
     for (const k of keys) {
-      if (value[k] === undefined) return key;
+      if (value === undefined || value === null) return key;
       value = value[k];
+    }
+    if (typeof value !== 'string') return key;
+    if (params) {
+      return value.replace(/\{(\w+)\}/g, (_, name) =>
+        (params[name] !== undefined ? String(params[name]) : `{${name}}`)
+      );
     }
     return value;
   };
@@ -35,8 +41,4 @@ export function I18nProvider({ children }) {
       {children}
     </I18nContext.Provider>
   );
-}
-
-export function useTranslation() {
-  return useContext(I18nContext);
 }

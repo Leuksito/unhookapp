@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { Scissors, Search, Inbox, Loader2 } from 'lucide-react';
 import './ScanProgress.css';
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import SenderCard from './SenderCard';
 import { X, ArrowLeft, ArrowRight, ArrowUp, Zap } from 'lucide-react';
 import './ZenMode.css';
@@ -20,6 +20,14 @@ export default function ZenMode({ senders, onCut, onSnooze, onExit }) {
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
   const [showComboPop, setShowComboPop] = useState(false);
+  const [prevSenders, setPrevSenders] = useState(senders);
+
+  // Sync queue to prop changes during render (React-recommended pattern).
+  if (senders !== prevSenders) {
+    setPrevSenders(senders);
+    setQueue(senders);
+    setCombo(0);
+  }
 
   const currentSender = queue[0];
   const progress = senders.length > 0 ? ((senders.length - queue.length) / senders.length) * 100 : 0;
@@ -79,11 +87,6 @@ export default function ZenMode({ senders, onCut, onSnooze, onExit }) {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentSender, direction, handleAction, onExit]);
-
-  useEffect(() => {
-    setQueue(senders);
-    setCombo(0);
-  }, [senders]);
 
   const comboLabel = getComboLabel(combo);
 

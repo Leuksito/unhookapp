@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 import './LanguageMenu.css';
 

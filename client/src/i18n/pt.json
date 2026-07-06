@@ -3,7 +3,8 @@
     "title": "Limpe sua caixa de entrada. Recupere sua paz.",
     "subtitle": "Encontre e cancele a inscrição de newsletters, promoções e spam com um clique.",
     "connect": "Conectar com Gmail",
-    "privacy": "Solicitamos apenas acesso de leitura para encontrar links de cancelamento. Nunca excluímos ou enviamos e-mails."
+    "privacy": "Solicitamos apenas acesso de leitura para encontrar links de cancelamento. Nunca excluímos ou enviamos e-mails.",
+    "demo": "Ver Demo (Sem login)"
   },
   "dashboard": {
     "health_score": "Saúde da Caixa",
@@ -64,6 +65,37 @@
     "empty": "Sem mais cartões!",
     "exit": "Sair do Modo Zen",
     "remaining": "restantes"
+  },
+  "classifier": {
+    "title": "Classificação por IA",
+    "desc": "Gemini AI classifica automaticamente seus remetentes em categorias",
+    "hero_desc": "Use Gemini AI para classificar automaticamente seus remetentes em categorias: Trabalho, Pessoal, Contas, Social, Promoções e mais.",
+    "classify": "Classificar com IA",
+    "reclassify": "Re-classificar",
+    "apply_labels": "Criar labels no Gmail",
+    "applied": "Labels aplicadas!",
+    "applying": "Aplicando...",
+    "analyzing": "Analisando remetentes...",
+    "progress": "Gemini AI está classificando {count} remetentes",
+    "confidence": "Confiança",
+    "reverting": "Revertendo...",
+    "revert_labels": "Reverter labels",
+    "confirm_clear": "Excluir todas?",
+    "confirm_yes": "Sim, limpar",
+    "cancel": "Cancelar",
+    "clear": "Limpar",
+    "empty_category": "Nenhum remetente nesta categoria",
+    "error_invalid_response": "Resposta inválida do servidor",
+    "error_generic": "Erro na classificação. Verifique se o servidor está rodando e se a chave da API Gemini é válida.",
+    "categories": {
+      "work": "Trabalho",
+      "personal": "Pessoal",
+      "bills": "Contas",
+      "social": "Social",
+      "promotions": "Promoções",
+      "notifications": "Notificações",
+      "other": "Outros"
+    }
   },
   "celebration": {
     "title": "Caixa Zero! 🎉",

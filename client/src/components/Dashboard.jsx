@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { api } from '../utils/api';
 import Header from './Header';
 import HealthScore from './HealthScore';
@@ -182,7 +182,7 @@ export default function Dashboard({ user, setAuth }) {
                 </button>
                 <button className="btn-secondary" onClick={() => setShowClassifier(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Sparkles size={18} />
-                  Clasificar con IA
+                  {t('classifier.classify')}
                 </button>
               </div>
             )}

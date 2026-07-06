@@ -3,7 +3,8 @@
     "title": "Bereinigen Sie Ihr Postfach. Finden Sie Ihre Ruhe.",
     "subtitle": "Finden und kündigen Sie Newsletter, Werbung und Spam mit einem Klick.",
     "connect": "Mit Gmail verbinden",
-    "privacy": "Wir bitten nur um Lesezugriff, um Abmelde-Links zu finden. Wir löschen oder senden niemals E-Mails."
+    "privacy": "Wir bitten nur um Lesezugriff, um Abmelde-Links zu finden. Wir löschen oder senden niemals E-Mails.",
+    "demo": "Demo testen (Ohne Login)"
   },
   "dashboard": {
     "health_score": "Postfach-Gesundheit",
@@ -64,6 +65,37 @@
     "empty": "Keine Karten mehr!",
     "exit": "Zen-Modus verlassen",
     "remaining": "übrig"
+  },
+  "classifier": {
+    "title": "KI-Klassifizierung",
+    "desc": "Gemini AI klassifiziert Ihre Absender automatisch in Kategorien",
+    "hero_desc": "Verwenden Sie Gemini AI, um Ihre Absender automatisch in Kategorien zu klassifizieren: Arbeit, Persönlich, Rechnungen, Social, Werbung und mehr.",
+    "classify": "Mit AI klassifizieren",
+    "reclassify": "Neu klassifizieren",
+    "apply_labels": "Gmail-Labels erstellen",
+    "applied": "Labels angewendet!",
+    "applying": "Anwenden...",
+    "analyzing": "Absender werden analysiert...",
+    "progress": "Gemini AI klassifiziert {count} Absender",
+    "confidence": "Konfidenz",
+    "reverting": "Zurücksetzen...",
+    "revert_labels": "Labels zurücksetzen",
+    "confirm_clear": "Alle löschen?",
+    "confirm_yes": "Ja, löschen",
+    "cancel": "Abbrechen",
+    "clear": "Löschen",
+    "empty_category": "Keine Absender in dieser Kategorie",
+    "error_invalid_response": "Ungültige Serverantwort",
+    "error_generic": "Klassifizierungsfehler. Prüfen Sie, ob der Server läuft und der Gemini API-Schlüssel gültig ist.",
+    "categories": {
+      "work": "Arbeit",
+      "personal": "Persönlich",
+      "bills": "Rechnungen",
+      "social": "Social",
+      "promotions": "Werbung",
+      "notifications": "Benachrichtigungen",
+      "other": "Sonstige"
+    }
   },
   "celebration": {
     "title": "Postfach auf Null! 🎉",

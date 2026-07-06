@@ -3,7 +3,8 @@
     "title": "Clean your inbox. Restore your peace.",
     "subtitle": "Easily find and unsubscribe from newsletters, promos, and spam with one click.",
     "connect": "Connect with Gmail",
-    "privacy": "We only request read-only access to find unsubscribe links. We never delete or send emails."
+    "privacy": "We only request read-only access to find unsubscribe links. We never delete or send emails.",
+    "demo": "Try Demo (No login)"
   },
   "dashboard": {
     "health_score": "Inbox Health",
@@ -68,6 +69,7 @@
   "classifier": {
     "title": "AI Classification",
     "desc": "Gemini AI automatically classifies your senders into categories",
+    "hero_desc": "Use Gemini AI to automatically classify your senders into categories: Work, Personal, Bills, Social, Promotions and more.",
     "classify": "Classify with AI",
     "reclassify": "Re-classify",
     "apply_labels": "Create Gmail labels",
@@ -76,6 +78,15 @@
     "analyzing": "Analyzing senders...",
     "progress": "Gemini AI is classifying {count} senders",
     "confidence": "Confidence",
+    "reverting": "Reverting...",
+    "revert_labels": "Revert labels",
+    "confirm_clear": "Delete all?",
+    "confirm_yes": "Yes, clear",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "empty_category": "No senders in this category",
+    "error_invalid_response": "Invalid server response",
+    "error_generic": "Classification error. Check that the server is running and the Gemini API key is valid.",
     "categories": {
       "work": "Work",
       "personal": "Personal",

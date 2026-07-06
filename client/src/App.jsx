@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { api } from './utils/api';
 import LoginScreen from './components/LoginScreen';
@@ -8,22 +8,20 @@ function AppContent() {
   const [auth, setAuth] = useState(() => ({ loading: true, user: null }));
   const navigate = useNavigate();
 
-  const checkAuth = useCallback(async () => {
-    try {
-      const data = await api.getAuthStatus();
-      if (data.authenticated) {
-        setAuth({ loading: false, user: data.user });
-      } else {
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await api.getAuthStatus();
+        if (cancelled) return;
+        setAuth({ loading: false, user: data.authenticated ? data.user : null });
+      } catch {
+        if (cancelled) return;
         setAuth({ loading: false, user: null });
       }
-    } catch {
-      setAuth({ loading: false, user: null });
-    }
+    })();
+    return () => { cancelled = true; };
   }, []);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   useEffect(() => {
     if (auth.loading) return;
@@ -42,8 +40,9 @@ function AppContent() {
 
   return (
     <Routes>
-      <Route path="/" element={<LoginScreen onLogin={checkAuth} />} />
+      <Route path="/" element={<LoginScreen />} />
       <Route path="/dashboard" element={<Dashboard user={auth.user} setAuth={setAuth} />} />
+      <Route path="*" element={<LoginScreen />} />
     </Routes>
   );
 }

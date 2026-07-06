@@ -1,22 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from '../i18n';
+import { useState } from 'react';
+import { useTranslation } from '../i18n/useTranslation';
 import './Celebration.css';
 
 export default function Celebration({ onDone }) {
   const { t } = useTranslation();
-  const [particles, setParticles] = useState([]);
-
-  useEffect(() => {
-    setParticles(
-      Array.from({ length: 50 }, (_, i) => ({
-        i,
-        cls: `c-${i % 5}`,
-        left: `${Math.random() * 100}%`,
-        delay: `${Math.random() * 3}s`,
-        duration: `${2 + Math.random() * 3}s`
-      }))
-    );
-  }, []);
+  const [particles] = useState(() =>
+    Array.from({ length: 50 }, (_, i) => ({
+      i,
+      cls: `c-${i % 5}`,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 3}s`,
+      duration: `${2 + Math.random() * 3}s`
+    }))
+  );
 
   return (
     <div className="celebration-overlay">

@@ -1,23 +1,23 @@
 import { useState } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { api } from '../utils/api';
-import { Sparkles, Tag, RefreshCw, Check, ChevronDown, Brain, Loader2, Trash2, Undo2 } from 'lucide-react';
+import { Sparkles, Tag, RefreshCw, Check, Brain, Loader2, Trash2, Undo2 } from 'lucide-react';
 import './Classifier.css';
 
 const CATEGORY_META = {
-  work: { label: { en: 'Work', es: 'Trabajo' }, color: '#4A6FA5', icon: '💼' },
-  personal: { label: { en: 'Personal', es: 'Personal' }, color: '#6B8E6B', icon: '👤' },
-  bills: { label: { en: 'Bills', es: 'Facturas' }, color: '#C75B39', icon: '📄' },
-  social: { label: { en: 'Social', es: 'Social' }, color: '#A0522D', icon: '🔗' },
-  promotions: { label: { en: 'Promotions', es: 'Promociones' }, color: '#D4A574', icon: '🏷️' },
-  notifications: { label: { en: 'Notifications', es: 'Notificaciones' }, color: '#8B7B6B', icon: '🔔' },
-  other: { label: { en: 'Other', es: 'Otros' }, color: '#9B8B7F', icon: '📁' }
+  work: { color: '#4A6FA5', icon: '💼' },
+  personal: { color: '#6B8E6B', icon: '👤' },
+  bills: { color: '#C75B39', icon: '📄' },
+  social: { color: '#A0522D', icon: '🔗' },
+  promotions: { color: '#D4A574', icon: '🏷️' },
+  notifications: { color: '#8B7B6B', icon: '🔔' },
+  other: { color: '#9B8B7F', icon: '📁' }
 };
 
 const CATEGORY_ORDER = ['work', 'personal', 'bills', 'promotions', 'social', 'notifications', 'other'];
 
 export default function Classifier({ senders, onClose }) {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [classifications, setClassifications] = useState(null);
   const [classifying, setClassifying] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
@@ -37,12 +37,12 @@ export default function Classifier({ senders, onClose }) {
     try {
       const result = await api.classifySenders(senders);
       if (!result || !result.classifications) {
-        throw new Error('Respuesta inválida del servidor');
+        throw new Error(t('classifier.error_invalid_response'));
       }
       setClassifications(result.classifications);
     } catch (err) {
       console.error('Classification error:', err);
-      setClassifyError(err.message || 'Error al clasificar. Revisa que el servidor esté corriendo y la API key de Gemini sea válida.');
+      setClassifyError(err.message || t('classifier.error_generic'));
     } finally {
       setClassifying(false);
     }
@@ -77,7 +77,7 @@ export default function Classifier({ senders, onClose }) {
   const handleRevertLabels = async () => {
     setRevertingLabels(true);
     try {
-      const result = await api.revertLabels();
+      await api.revertLabels();
       setApplied(false);
     } catch (err) {
       console.error(err);
@@ -115,10 +115,7 @@ export default function Classifier({ senders, onClose }) {
     }
   }
 
-  const getCategoryLabel = (cat) => {
-    const meta = CATEGORY_META[cat];
-    return meta ? (meta.label[lang] || meta.label.es) : cat;
-  };
+  const catLabel = (cat) => t(`classifier.categories.${cat}`);
 
   if (!classifications && !classifying) {
     return (
@@ -127,8 +124,8 @@ export default function Classifier({ senders, onClose }) {
           <button className="classifier-close" onClick={onClose}>×</button>
           <div className="classifier-hero">
             <Brain size={48} />
-            <h2>Clasificación con IA</h2>
-            <p>Usa Gemini AI para clasificar automáticamente tus remitentes en categorías: Trabajo, Personal, Facturas, Redes Sociales, Promociones y más.</p>
+            <h2>{t('classifier.title')}</h2>
+            <p>{t('classifier.hero_desc')}</p>
             {classifyError && (
               <div className="classifier-error">
                 <span>⚠️ {classifyError}</span>
@@ -136,7 +133,7 @@ export default function Classifier({ senders, onClose }) {
             )}
             <button className="btn-primary" onClick={handleClassify} style={{ marginTop: '1.5rem', padding: '0.85rem 2rem', fontSize: '1.1rem' }}>
               <Sparkles size={20} />
-              Clasificar con IA
+              {t('classifier.classify')}
             </button>
           </div>
         </div>
@@ -151,8 +148,8 @@ export default function Classifier({ senders, onClose }) {
           <button className="classifier-close" onClick={onClose}>×</button>
           <div className="classifier-progress">
             <Loader2 size={48} className="spinner" />
-            <h3>Analizando remitentes...</h3>
-            <p>Gemini IA está clasificando {senders.length} remitentes</p>
+            <h3>{t('classifier.analyzing')}</h3>
+            <p>{t('classifier.progress', { count: senders.length })}</p>
             <div className="progress-bar-track">
               <div
                 className="progress-bar-fill"
@@ -173,7 +170,7 @@ export default function Classifier({ senders, onClose }) {
 
         <div className="classifier-header">
           <Brain size={24} />
-          <h2>Clasificación por IA</h2>
+          <h2>{t('classifier.title')}</h2>
           <div className="classifier-actions">
             <button
               className="btn-secondary"
@@ -182,7 +179,7 @@ export default function Classifier({ senders, onClose }) {
               style={{ background: applied ? 'var(--accent-success)' : '', color: applied ? 'white' : '' }}
             >
               {applied ? <Check size={16} /> : <Tag size={16} />}
-              {applied ? '¡Labels aplicadas!' : applying ? 'Aplicando...' : 'Crear labels en Gmail'}
+              {applied ? t('classifier.applied') : applying ? t('classifier.applying') : t('classifier.apply_labels')}
             </button>
             {applied && (
               <button
@@ -192,27 +189,27 @@ export default function Classifier({ senders, onClose }) {
                 style={{ color: 'var(--accent-danger)' }}
               >
                 <Undo2 size={16} />
-                {revertingLabels ? 'Revirtiendo...' : 'Revertir labels'}
+                {revertingLabels ? t('classifier.reverting') : t('classifier.revert_labels')}
               </button>
             )}
             <button className="btn-secondary" onClick={handleClassify}>
               <RefreshCw size={16} />
-              Re-clasificar
+              {t('classifier.reclassify')}
             </button>
             {confirmClear ? (
               <div className="confirm-clear">
-                <span>¿Eliminar todas?</span>
+                <span>{t('classifier.confirm_clear')}</span>
                 <button className="btn-danger" onClick={handleClear} disabled={clearing}>
-                  {clearing ? '...' : 'Sí, limpiar'}
+                  {clearing ? '...' : t('classifier.confirm_yes')}
                 </button>
                 <button className="btn-secondary" onClick={() => setConfirmClear(false)}>
-                  Cancelar
+                  {t('classifier.cancel')}
                 </button>
               </div>
             ) : (
               <button className="btn-secondary" onClick={() => setConfirmClear(true)} style={{ color: 'var(--accent-danger)' }}>
                 <Trash2 size={16} />
-                Limpiar
+                {t('classifier.clear')}
               </button>
             )}
           </div>
@@ -230,7 +227,7 @@ export default function Classifier({ senders, onClose }) {
                 onClick={() => setSelectedCat(selectedCat === cat ? 'all' : cat)}
               >
                 <span>{meta.icon}</span>
-                <span>{meta.label[lang] || meta.label.es}</span>
+                <span>{catLabel(cat)}</span>
                 <span className="category-count">{count}</span>
               </button>
             );
@@ -240,7 +237,7 @@ export default function Classifier({ senders, onClose }) {
         <div className="classifier-list">
           {filteredItems.length === 0 ? (
             <div className="classifier-empty">
-              <p>No hay remitentes en esta categoría</p>
+              <p>{t('classifier.empty_category')}</p>
             </div>
           ) : (
             filteredItems.map(item => {
@@ -253,7 +250,7 @@ export default function Classifier({ senders, onClose }) {
                       <span className="classifier-item-subject">{item.exampleSubject}</span>
                     )}
                     <span className="classifier-item-confidence">
-                      Confianza: {Math.round(item.confidence * 100)}%
+                      {t('classifier.confidence')}: {Math.round(item.confidence * 100)}%
                     </span>
                   </div>
                   <div className="classifier-item-category">
@@ -261,7 +258,7 @@ export default function Classifier({ senders, onClose }) {
                       className="category-badge"
                       style={{ background: meta.color }}
                     >
-                      {meta.icon} {meta.label[lang] || meta.label.es}
+                      {meta.icon} {catLabel(item.category)}
                     </span>
                     <div className="category-select-wrap">
                       <select
@@ -274,7 +271,7 @@ export default function Classifier({ senders, onClose }) {
                           const m = CATEGORY_META[c];
                           return (
                             <option key={c} value={c}>
-                              {m.icon} {m.label[lang] || m.label.es}
+                              {m.icon} {catLabel(c)}
                             </option>
                           );
                         })}

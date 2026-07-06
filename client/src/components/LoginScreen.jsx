@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { api } from '../utils/api';
 import { Scissors } from 'lucide-react';
 import LanguageMenu from './LanguageMenu';
 import './LoginScreen.css';
 
 export default function LoginScreen() {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -61,7 +61,7 @@ export default function LoginScreen() {
           disabled={loading}
           style={{ marginTop: '-0.5rem', marginBottom: '1.5rem', background: '#e0e0e0' }}
         >
-          {lang === 'es' ? 'Ver Demo (Sin conectar)' : 'Try Demo (No login)'}
+          {t('login.demo')}
         </button>
         
         <p className="privacy-notice">{t('login.privacy')}</p>

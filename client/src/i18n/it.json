@@ -3,7 +3,8 @@
     "title": "Pulisci la tua casella. Ritrova la tua pace.",
     "subtitle": "Trova e disiscriviti da newsletter, promozioni e spam con un clic.",
     "connect": "Connetti con Gmail",
-    "privacy": "Richiediamo solo accesso in lettura per trovare i link di disiscrizione. Non cancelliamo né inviamo mai email."
+    "privacy": "Richiediamo solo accesso in lettura per trovare i link di disiscrizione. Non cancelliamo né inviamo mai email.",
+    "demo": "Prova Demo (Senza login)"
   },
   "dashboard": {
     "health_score": "Salute della Casella",
@@ -64,6 +65,37 @@
     "empty": "Nessuna carta rimasta!",
     "exit": "Esci dalla Modalità Zen",
     "remaining": "rimanenti"
+  },
+  "classifier": {
+    "title": "Classificazione IA",
+    "desc": "Gemini AI classifica automaticamente i tuoi mittenti in categorie",
+    "hero_desc": "Usa Gemini AI per classificare automaticamente i tuoi mittenti in categorie: Lavoro, Personale, Bollette, Social, Promozioni e altro.",
+    "classify": "Classifica con IA",
+    "reclassify": "Riclassifica",
+    "apply_labels": "Crea label in Gmail",
+    "applied": "Label applicate!",
+    "applying": "Applicazione...",
+    "analyzing": "Analisi dei mittenti...",
+    "progress": "Gemini AI sta classificando {count} mittenti",
+    "confidence": "Confidenza",
+    "reverting": "Ripristino...",
+    "revert_labels": "Ripristina label",
+    "confirm_clear": "Eliminare tutte?",
+    "confirm_yes": "Sì, svuota",
+    "cancel": "Annulla",
+    "clear": "Svuota",
+    "empty_category": "Nessun mittente in questa categoria",
+    "error_invalid_response": "Risposta del server non valida",
+    "error_generic": "Errore di classificazione. Verifica che il server sia in esecuzione e che la chiave API Gemini sia valida.",
+    "categories": {
+      "work": "Lavoro",
+      "personal": "Personale",
+      "bills": "Bollette",
+      "social": "Social",
+      "promotions": "Promozioni",
+      "notifications": "Notifiche",
+      "other": "Altri"
+    }
   },
   "celebration": {
     "title": "Casella a Zero! 🎉",

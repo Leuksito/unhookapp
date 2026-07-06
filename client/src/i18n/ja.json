@@ -3,7 +3,8 @@
     "title": "受信箱をクリーンに。平和を取り戻そう。",
     "subtitle": "ニュースレターやプロモーション、スパムをワンクリックで見つけて解除。",
     "connect": "Gmailと連携",
-    "privacy": "解除リンクを見つけるために読み取り専用アクセスのみを要求します。メールを削除または送信することはありません。"
+    "privacy": "解除リンクを見つけるために読み取り専用アクセスのみを要求します。メールを削除または送信することはありません。",
+    "demo": "デモを試す (ログイン不要)"
   },
   "dashboard": {
     "health_score": "受信箱の健康状態",
@@ -64,6 +65,37 @@
     "empty": "カードは残っていません！",
     "exit": "禅モードを終了",
     "remaining": "残り"
+  },
+  "classifier": {
+    "title": "AI分類",
+    "desc": "Gemini AIがあなたの送信者を自動的にカテゴリに分類します",
+    "hero_desc": "Gemini AIを使って送信者を自動的にカテゴリに分類：仕事、個人、請求書、ソーシャル、プロモーションなど。",
+    "classify": "AIで分類",
+    "reclassify": "再分類",
+    "apply_labels": "Gmailラベルを作成",
+    "applied": "ラベルを適用しました！",
+    "applying": "適用中...",
+    "analyzing": "送信者を分析中...",
+    "progress": "Gemini AIが{count}件の送信者を分類中",
+    "confidence": "信頼度",
+    "reverting": "元に戻しています...",
+    "revert_labels": "ラベルを元に戻す",
+    "confirm_clear": "すべて削除しますか？",
+    "confirm_yes": "はい、削除",
+    "cancel": "キャンセル",
+    "clear": "削除",
+    "empty_category": "このカテゴリに送信者はいません",
+    "error_invalid_response": "サーバーの応答が無効です",
+    "error_generic": "分類エラーです。サーバーが実行中で、Gemini APIキーが有効であることを確認してください。",
+    "categories": {
+      "work": "仕事",
+      "personal": "個人",
+      "bills": "請求書",
+      "social": "ソーシャル",
+      "promotions": "プロモーション",
+      "notifications": "通知",
+      "other": "その他"
+    }
   },
   "celebration": {
     "title": "受信箱ゼロ！🎉",

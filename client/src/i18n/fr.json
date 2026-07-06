@@ -3,7 +3,8 @@
     "title": "Nettoyez votre boîte. Retrouvez la paix.",
     "subtitle": "Trouvez et désabonnez-vous des newsletters, promos et spams en un clic.",
     "connect": "Connecter avec Gmail",
-    "privacy": "Nous demandons uniquement un accès en lecture pour trouver les liens de désabonnement. Nous ne supprimons ni n'envoyons jamais d'e-mails."
+    "privacy": "Nous demandons uniquement un accès en lecture pour trouver les liens de désabonnement. Nous ne supprimons ni n'envoyons jamais d'e-mails.",
+    "demo": "Essai Démo (Sans connexion)"
   },
   "dashboard": {
     "health_score": "Santé de la Boîte",
@@ -64,6 +65,37 @@
     "empty": "Plus de cartes !",
     "exit": "Quitter le Mode Zen",
     "remaining": "restants"
+  },
+  "classifier": {
+    "title": "Classification par IA",
+    "desc": "Gemini AI classe automatiquement vos expéditeurs en catégories",
+    "hero_desc": "Utilisez Gemini AI pour classer automatiquement vos expéditeurs en catégories : Travail, Personnel, Factures, Social, Promotions et plus.",
+    "classify": "Classer avec l'IA",
+    "reclassify": "Re-classer",
+    "apply_labels": "Créer des labels Gmail",
+    "applied": "Labels appliqués !",
+    "applying": "Application...",
+    "analyzing": "Analyse des expéditeurs...",
+    "progress": "Gemini AI classe {count} expéditeurs",
+    "confidence": "Confiance",
+    "reverting": "Annulation...",
+    "revert_labels": "Annuler les labels",
+    "confirm_clear": "Tout supprimer ?",
+    "confirm_yes": "Oui, effacer",
+    "cancel": "Annuler",
+    "clear": "Effacer",
+    "empty_category": "Aucun expéditeur dans cette catégorie",
+    "error_invalid_response": "Réponse du serveur invalide",
+    "error_generic": "Erreur de classification. Vérifiez que le serveur fonctionne et que la clé API Gemini est valide.",
+    "categories": {
+      "work": "Travail",
+      "personal": "Personnel",
+      "bills": "Factures",
+      "social": "Social",
+      "promotions": "Promotions",
+      "notifications": "Notifications",
+      "other": "Autres"
+    }
   },
   "celebration": {
     "title": "Boîte à Zéro ! 🎉",

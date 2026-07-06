@@ -3,7 +3,8 @@
     "title": "Limpia tu correo. Recupera tu paz.",
     "subtitle": "Encuentra y date de baja de boletines, promociones y spam con un solo clic.",
     "connect": "Conectar con Gmail",
-    "privacy": "Solo pedimos acceso de lectura para encontrar enlaces de baja. Nunca borramos ni enviamos correos."
+    "privacy": "Solo pedimos acceso de lectura para encontrar enlaces de baja. Nunca borramos ni enviamos correos.",
+    "demo": "Ver Demo (Sin conectar)"
   },
   "dashboard": {
     "health_score": "Salud de Bandeja",
@@ -68,6 +69,7 @@
   "classifier": {
     "title": "Clasificación con IA",
     "desc": "Gemini AI clasifica tus remitentes en categorías automáticamente",
+    "hero_desc": "Usa Gemini AI para clasificar automáticamente tus remitentes en categorías: Trabajo, Personal, Facturas, Redes Sociales, Promociones y más.",
     "classify": "Clasificar con IA",
     "reclassify": "Re-clasificar",
     "apply_labels": "Crear labels en Gmail",
@@ -76,6 +78,15 @@
     "analyzing": "Analizando remitentes...",
     "progress": "Gemini IA está clasificando {count} remitentes",
     "confidence": "Confianza",
+    "reverting": "Revirtiendo...",
+    "revert_labels": "Revertir labels",
+    "confirm_clear": "¿Eliminar todas?",
+    "confirm_yes": "Sí, limpiar",
+    "cancel": "Cancelar",
+    "clear": "Limpiar",
+    "empty_category": "No hay remitentes en esta categoría",
+    "error_invalid_response": "Respuesta inválida del servidor",
+    "error_generic": "Error al clasificar. Revisa que el servidor esté corriendo y la API key de Gemini sea válida.",
     "categories": {
       "work": "Trabajo",
       "personal": "Personal",

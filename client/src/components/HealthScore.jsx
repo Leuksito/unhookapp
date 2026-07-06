@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import './HealthScore.css';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 
 export default function HealthScore({ totalItems, pendingItems }) {
   const { t } = useTranslation();

@@ -1,5 +1,5 @@
 import { useState, memo } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { Scissors, Clock, AlertTriangle } from 'lucide-react';
 import './SenderCard.css';
 

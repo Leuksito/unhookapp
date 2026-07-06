@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../i18n/useTranslation';
 import { api } from '../utils/api';
 import { Clock, RotateCcw, X, Trash2 } from 'lucide-react';
 import './HistoryPanel.css';
