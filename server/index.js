@@ -4,6 +4,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
 const crypto = require('crypto');
+const path = require('path');
+const fs = require('fs');
 const rateLimit = require('express-rate-limit');
 const dbInit = require('./db/init');
 
@@ -12,6 +14,10 @@ const emailsRoutes = require('./routes/emails');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+const IS_PROD = process.env.NODE_ENV === 'production';
+const CLIENT_BUILD_DIR = process.env.CLIENT_BUILD_DIR
+  || path.join(__dirname, '..', 'client', 'dist');
 
 // Initialize Database (singleton)
 dbInit();
@@ -90,6 +96,15 @@ app.use(session({
 // Routes
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/emails', emailsRoutes);
+
+// Servir el build estático del cliente en producción
+if (IS_PROD && fs.existsSync(CLIENT_BUILD_DIR)) {
+  app.use(express.static(CLIENT_BUILD_DIR));
+  // SPA fallback: cualquier ruta no-API devuelve index.html
+  app.get(/^(?!\/api\/).*/, (req, res) => {
+    res.sendFile(path.join(CLIENT_BUILD_DIR, 'index.html'));
+  });
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

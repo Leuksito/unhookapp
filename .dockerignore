@@ -1,0 +1,17 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.env
+.env.*
+*.log
+.git
+.gitignore
+.github
+.vscode
+.idea
+server/data
+*.md
+README.md
+LICENSE
+setup.ps1

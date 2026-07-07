@@ -1,0 +1,24 @@
+services:
+  unhookapp:
+    build: .
+    container_name: unhookapp
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      # URL pública desde la que los usuarios acceden a la app.
+      # Debe coincidir con el redirect URI configurado en Google Cloud.
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3001}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-http://localhost:3001/api/auth/callback}
+      SESSION_SECRET: ${SESSION_SECRET}
+      TOKEN_ENCRYPTION_KEY: ${TOKEN_ENCRYPTION_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    volumes:
+      - unhookapp-data:/app/server/data
+
+volumes:
+  unhookapp-data:
