@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test \"services/**/*.test.js\"",
+    "lint": "node --check index.js && node --check routes/auth.js && node --check routes/emails.js && node --check db/init.js && node --check db/queries.js && node --check services/parser.js && node --check services/classifier.js && node --check services/gmail.js && node --check services/gmailHelper.js && node --check services/subscriptions.js && node --check services/crypto.js"
   },
   "keywords": [
     "gmail",
