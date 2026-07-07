@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from '../i18n/useTranslation';
 import { api } from '../utils/api';
 import Header from './Header';
@@ -27,6 +27,22 @@ export default function Dashboard({ user, setAuth }) {
   const [showClassifier, setShowClassifier] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [toast, setToast] = useState(null);
+  const [streakBump, setStreakBump] = useState(false);
+  const [streakMilestone, setStreakMilestone] = useState(null);
+  const prevStreakRef = useRef(stats.streak);
+
+  useEffect(() => {
+    const prev = prevStreakRef.current;
+    if (stats.streak > prev) {
+      setStreakBump(true);
+      const timer = setTimeout(() => setStreakBump(false), 900);
+      setStreakMilestone({ count: stats.streak });
+      const milestoneTimer = setTimeout(() => setStreakMilestone(null), 2400);
+      prevStreakRef.current = stats.streak;
+      return () => { clearTimeout(timer); clearTimeout(milestoneTimer); };
+    }
+    prevStreakRef.current = stats.streak;
+  }, [stats.streak]);
 
   useEffect(() => {
     loadData();
@@ -162,7 +178,7 @@ export default function Dashboard({ user, setAuth }) {
                     <span className="stat-label">{t('dashboard.stats.total_cuts')}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-value">{stats.streak}🔥</span>
+                    <span className={`stat-value streak-badge ${streakBump ? 'streak-bump' : ''}`}>{stats.streak}🔥</span>
                     <span className="stat-label">{t('dashboard.stats.streak')}</span>
                   </div>
                   <button className="stat-box stat-btn" onClick={() => setShowHistory(true)} title={t('dashboard.history_title')}>
@@ -279,6 +295,13 @@ export default function Dashboard({ user, setAuth }) {
               {t('dashboard.history_undo')}
             </button>
           )}
+        </div>
+      )}
+
+      {streakMilestone && (
+        <div className="streak-milestone animate-slide-up" key={streakMilestone.count}>
+          <span className="streak-milestone-fire">🔥</span>
+          <span className="streak-milestone-text">Racha {streakMilestone.count} días</span>
         </div>
       )}
     </div>

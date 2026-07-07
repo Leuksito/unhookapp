@@ -223,3 +223,67 @@
   from { opacity: 1; }
   to { opacity: 0; transform: translateX(-50%) translateY(10px); }
 }
+
+/* Animación de racha — pulsa cuando sube */
+.streak-badge {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.streak-badge.streak-bump {
+  animation: streakBump 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+@keyframes streakBump {
+  0%   { transform: scale(1);   text-shadow: none; }
+  30%  { transform: scale(1.6); color: #ff6b3b; text-shadow: 0 0 18px rgba(255, 107, 59, 0.8); }
+  60%  { transform: scale(1.2); color: #ff8c42; text-shadow: 0 0 10px rgba(255, 140, 66, 0.5); }
+  100% { transform: scale(1);   text-shadow: none; }
+}
+
+/* Toast hito de racha — aparece encima del toast normal */
+.streak-milestone {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff6b3b, #ffb340);
+  color: white;
+  padding: 0.9rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-family: var(--font-serif);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 8px 30px rgba(255, 107, 59, 0.4);
+  z-index: 1500;
+  animation: streakMilestoneIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+             streakMilestoneOut 0.5s ease 1.9s forwards;
+}
+
+.streak-milestone-fire {
+  font-size: 1.4rem;
+  animation: flameFlicker 0.6s ease-in-out infinite alternate;
+}
+
+.streak-milestone-text {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+@keyframes streakMilestoneIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(30px) scale(0.7); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+@keyframes streakMilestoneOut {
+  from { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
+}
+
+@keyframes flameFlicker {
+  from { transform: scale(1) rotate(-3deg); filter: brightness(1); }
+  to   { transform: scale(1.15) rotate(3deg); filter: brightness(1.25); }
+}
