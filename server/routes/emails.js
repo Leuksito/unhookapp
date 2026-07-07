@@ -6,6 +6,7 @@ const { extractUnsubscribeLink, classifySender, estimateFrequency, extractTextSn
 const { getMessagesWithBackoff, getMessageDetailsWithBackoff } = require('../services/gmail');
 const { applyToAllMessages } = require('../services/gmailHelper');
 const { classifySenders } = require('../services/classifier');
+const { detectSubscriptions, totalMonthlyCost, demoSubscriptions } = require('../services/subscriptions');
 const { saveClassifications, getClassificationsByCategory, updateClassification, deleteClassifications, getClassificationByEmail } = require('../db/queries');
 
 const router = express.Router();
@@ -216,10 +217,122 @@ router.get('/scan', checkAuth, async (req, res) => {
 
     results.sort((a, b) => b.frequency - a.frequency);
 
+    // Cache for the /subscriptions endpoint so it doesn't re-hit Gmail
+    lastScanCache.set(req.user.id, results);
+
     res.json({ senders: results });
   } catch (error) {
     console.error('Scan error:', error);
     res.status(500).json({ error: 'Failed to scan emails' });
+  }
+});
+
+// In-memory cache of the last scan per user, so /subscriptions doesn't have
+// to re-hit the Gmail API every time. Cleared on server restart.
+const lastScanCache = new Map();
+
+router.get('/subscriptions', checkAuth, async (req, res) => {
+  try {
+    if (req.user.id === 'demo_user') {
+      const subs = demoSubscriptions();
+      return res.json({
+        subscriptions: subs,
+        monthlyTotal: Number(totalMonthlyCost(subs).toFixed(2)),
+        yearlyTotal: Number((totalMonthlyCost(subs) * 12).toFixed(2)),
+        currency: 'USD'
+      });
+    }
+
+    // Use cached scan if available, otherwise fetch fresh
+    let senders = lastScanCache.get(req.user.id);
+    if (!senders) {
+      const gmail = getGmailClient(req.user);
+      const snoozedSenders = getActiveSnoozes(req.user.id);
+
+      let allMessages = [];
+      let pageToken = null;
+      let pageCount = 0;
+      const maxPages = 10;
+      const searchQueries = ['unsubscribe', 'category:promotions', 'category:social'];
+
+      for (const query of searchQueries) {
+        pageToken = null;
+        pageCount = 0;
+        do {
+          const response = await getMessagesWithBackoff(gmail, {
+            userId: 'me', q: query, maxResults: 100, pageToken: pageToken
+          });
+          if (response.data.messages) {
+            allMessages = allMessages.concat(response.data.messages);
+          }
+          pageToken = response.data.nextPageToken;
+          pageCount++;
+        } while (pageToken && pageCount < maxPages);
+      }
+
+      const seen = new Set();
+      allMessages = allMessages.filter(msg => {
+        const dup = seen.has(msg.id);
+        seen.add(msg.id);
+        return !dup;
+      });
+
+      const sendersMap = new Map();
+      const BATCH_SIZE = 20;
+
+      for (let i = 0; i < allMessages.length; i += BATCH_SIZE) {
+        const batch = allMessages.slice(i, i + BATCH_SIZE);
+        const detailPromises = batch.map(msg =>
+          getMessageDetailsWithBackoff(gmail, {
+            userId: 'me', id: msg.id, format: 'full'
+          }).catch(err => {
+            console.error(`Error fetching ${msg.id}:`, err.message);
+            return null;
+          })
+        );
+        const details = await Promise.all(detailPromises);
+        for (const detail of details) {
+          if (!detail) continue;
+          const headers = detail.data.payload.headers;
+          const getHeader = (name) => {
+            const h = headers.find(h => h.name.toLowerCase() === name.toLowerCase());
+            return h ? h.value : '';
+          };
+          const fromHeader = getHeader('From');
+          const subject = getHeader('Subject');
+          const date = getHeader('Date');
+          const emailMatch = fromHeader.match(/<([^>]+)>/);
+          const senderEmail = emailMatch ? emailMatch[1].toLowerCase() : fromHeader.toLowerCase();
+          const senderName = emailMatch ? fromHeader.split('<')[0].trim().replace(/"/g, '') : senderEmail;
+          if (snoozedSenders.includes(senderEmail)) continue;
+          if (!sendersMap.has(senderEmail)) {
+            sendersMap.set(senderEmail, {
+              email: senderEmail, name: senderName, exampleSubject: subject, dates: [date]
+            });
+          } else {
+            sendersMap.get(senderEmail).dates.push(date);
+          }
+        }
+      }
+
+      senders = Array.from(sendersMap.values()).map(s => {
+        const freq = estimateFrequency(s.dates);
+        delete s.dates;
+        return { ...s, frequency: freq };
+      });
+      lastScanCache.set(req.user.id, senders);
+    }
+
+    const subs = detectSubscriptions(senders);
+    res.json({
+      subscriptions: subs,
+      monthlyTotal: Number(totalMonthlyCost(subs).toFixed(2)),
+      yearlyTotal: Number((totalMonthlyCost(subs) * 12).toFixed(2)),
+      currency: 'USD'
+    });
+  } catch (error) {
+    console.error('Subscriptions error:', error);
+    res.status(500).json({ error: 'Failed to detect subscriptions' });
   }
 });
 

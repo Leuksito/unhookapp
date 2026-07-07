@@ -39,6 +39,7 @@ export const api = {
   logout: () => post('/api/auth/logout'),
 
   scanEmails: () => request('/api/emails/scan'),
+  getSubscriptions: () => request('/api/emails/subscriptions'),
   cutSender: (senderEmail, senderName) => post('/api/emails/cut', { senderEmail, senderName }),
   snoozeSender: (senderEmail) => post('/api/emails/snooze', { senderEmail }),
   getHistory: () => request('/api/emails/history'),

@@ -19,6 +19,7 @@ UnhookApp connects to your Gmail account via OAuth 2.0, scans your inbox for new
 - **Celebration animation** — confetti burst when you hit milestones
 - **i18n** — 7 languages: English, Spanish, French, Portuguese, German, Italian, Japanese
 - **Demo mode** — try the app without connecting a real Gmail account
+- **Paid subscription tracker** — detects senders from services you already pay for (Netflix, Spotify, etc.) and shows your estimated monthly / yearly spend
 
 ## Tech Stack
 

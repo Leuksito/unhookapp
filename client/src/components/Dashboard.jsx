@@ -8,8 +8,10 @@ import Celebration from './Celebration';
 import ZenMode from './ZenMode';
 import ScanProgress from './ScanProgress';
 import HistoryPanel from './HistoryPanel';
-import { Scissors, Wind, Clock, RotateCcw, Sparkles } from 'lucide-react';
+import { Scissors, Wind, Clock, RotateCcw, Sparkles, Share2 } from 'lucide-react';
 import Classifier from './Classifier';
+import ShareCard from './ShareCard';
+import SubscriptionsPanel from './SubscriptionsPanel';
 import './Dashboard.css';
 
 export default function Dashboard({ user, setAuth }) {
@@ -23,6 +25,7 @@ export default function Dashboard({ user, setAuth }) {
   const [isZenMode, setIsZenMode] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showClassifier, setShowClassifier] = useState(false);
+  const [showShare, setShowShare] = useState(false);
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
@@ -135,6 +138,12 @@ export default function Dashboard({ user, setAuth }) {
     [senders, filter]
   );
 
+  const healthScore = useMemo(() => {
+    if (originalTotal === 0) return 100;
+    const cut = originalTotal - senders.length;
+    return Math.max(0, Math.min(100, Math.round((cut / originalTotal) * 100)));
+  }, [originalTotal, senders.length]);
+
   return (
     <div className="dashboard-layout animate-fade-in">
       <Header user={user} setAuth={setAuth} streak={stats.streak} />
@@ -174,6 +183,8 @@ export default function Dashboard({ user, setAuth }) {
               ))}
             </div>
 
+            <SubscriptionsPanel onCut={handleCut} />
+
             {filteredSenders.length > 0 && (
               <div className="action-bar" style={{ marginBottom: '2rem' }}>
                 <button className="btn-secondary" onClick={() => setIsZenMode(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--accent-success)', color: 'white' }}>
@@ -184,6 +195,17 @@ export default function Dashboard({ user, setAuth }) {
                   <Sparkles size={18} />
                   {t('classifier.classify')}
                 </button>
+                {stats.total_cuts > 0 && (
+                  <button
+                    className="btn-secondary"
+                    onClick={() => setShowShare(true)}
+                    title={t('share.button_tooltip')}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, var(--accent-primary), #ff6b9d)', color: 'white' }}
+                  >
+                    <Share2 size={18} />
+                    {t('share.button')}
+                  </button>
+                )}
               </div>
             )}
 
@@ -238,6 +260,13 @@ export default function Dashboard({ user, setAuth }) {
         <Classifier
           senders={senders}
           onClose={() => setShowClassifier(false)}
+        />
+      )}
+
+      {showShare && (
+        <ShareCard
+          stats={{ totalCuts: stats.total_cuts, streak: stats.streak, healthScore }}
+          onClose={() => setShowShare(false)}
         />
       )}
 
