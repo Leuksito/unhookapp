@@ -204,4 +204,4 @@ UnhookApp/
 
 ## Licencia
 
-[Apache 2.0](LICENSE) — Copyright 2024 Leuksito
+[Apache 2.0](LICENSE) — Copyright 2026 Leuksito
